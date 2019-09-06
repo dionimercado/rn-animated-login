@@ -25,6 +25,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "Just coding along with my friend Varun: https://www.youtube.com/watch?v=CkiR6_KbVwA",
+    "githubUrl": "https://github.com/dionimercado/rn-animated-login"
   }
 }
