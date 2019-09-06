@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
 import LoginScreen from "./src/screens/Login";
 
-function cacheImages(images) {
+const cacheImages = images => {
   return images.map(image => {
     if (typeof image === "string") {
       return Image.prefetch(image);
@@ -11,30 +11,24 @@ function cacheImages(images) {
       return Asset.fromModule(image).downloadAsync();
     }
   });
-}
+};
 
-export default class App extends Component {
-  state = {
-    isReady: false
-  };
+export default () => {
+  const [isReady, setIsReady] = useState(false);
 
-  async _loadAssetsAsync() {
+  const _loadAssetsAsync = async () => {
     const imageAssets = cacheImages([require("./assets/bg.jpg")]);
 
     await Promise.all([...imageAssets]);
-  }
+  };
 
-  render() {
-    if (!this.state.isReady) {
-      return (
-        <AppLoading
-          startAsync={this._loadAssetsAsync}
-          onFinish={() => this.setState({ isReady: true })}
-          onError={console.warn}
-        />
-      );
-    }
+  !isReady && (
+    <AppLoading
+      startAsync={_loadAssetsAsync}
+      onFinish={() => setIsReady(true)}
+      onError={console.warn}
+    />
+  );
 
-    return <LoginScreen />;
-  }
-}
+  return <LoginScreen />;
+};
